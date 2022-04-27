@@ -8,12 +8,6 @@ NOTES
 -Lognormal class denoted by 0
 
 
-TO DO:
--add a module than automatically sets an appropriate regularisation parameter
-
--default model is linear, i.e. SUM ( theta_i*x_i)
-
-- parameters in order are: mean, sd, p, SW, AD
 
 FINDINGS:
 -adding higher order polynomial terms appears not to improve the model, and gives evidence of high variance
@@ -24,18 +18,14 @@ FINDINGS:
 
    -increasing the sample size to 2x10000 and using third order (d=3) gives about 93% for success fraction, precision and recall (and F1) (takes about 30min to run)
      -this is only a few % improved on d=3 for a sample of 2x1000 (between 91% and 93%). d=1 gives the same results
+   -some numerical effects in learning curves for high d
 
-   -some numerical effects in learning curves for high d (thought fixed but apparently not)
-
--main_2Dsimple.py plots the 2D linear classification boundary (used sd and SW_ts). It looks as if it is difficult to improve
 
 QUESTIONS:
 -are their similarities between the data that are not correctly classified?
--does the probability before classification give the prior, or the result?
 
 TO ADD:
--dimensionality reduction to plot the data and classifications
--can neural networks do better (separate script)
+-can neural networks do better? (separate script)
 
 '''
 
@@ -61,55 +51,32 @@ Ndim = 2 #needs to be 2 for plotting
 #######################################
 #load in data and make correct format #
 #######################################
-path = '../GenerateSampleData'
+path = '../DataGeneration'
 
 Gdata = np.loadtxt(path+'/GaussianData.txt') #
 LNdata = np.loadtxt(path+'/LognormData.txt')
 
 AllData = np.concatenate((Gdata, LNdata)) #joins arrays row wise
 
-#print('shapes: ', np.shape(Gdata), np.shape(LNdata), np.shape(AllData) ) #verify shape
-
-#print ('AllData[0:5]:', AllData[0:5])
-#print ('AllData[-5:]:', AllData[-5:])
 
 #randomise the order of AllData
-#Alldata_shuffled = np.random.shuffle(AllData)
 Alldata_shuffled =np.take(AllData,np.random.permutation(AllData.shape[0]),axis=0)
 
-#print ('shuffled data:', Alldata_shuffled)#[0:5])
 
 #extract y
 y = np.array([Alldata_shuffled[:,-1]]).T #needs to be a column vector
-#print ('y, shape: ', y, np.shape(y) )
 
 #extract X
 Xcut = Alldata_shuffled[ : , 0:-1 ] #all rows, minus last column
-#print ('X, shape:', Xcut, np.shape(Xcut) )
-"""
-#investigate leaving out parameters
-el_del = [0, 1, 2, 3, 4, 5, 6] #works slightly better when no: mean, #slightly worse:sd, SW_TS, AD_TS no effect: PSDindex -other parameters compensate
-Xcut = np.delete(Xcut, el_del, axis=1)  # delete column of Xcut
-params_orig = copy.deepcopy(params)
-for i in range(len(el_del)):
-    todelete = params_orig[el_del[i]+1]
-    #print (todelete)
-    #print (params_orig)
-    #del params[el_del[i]+1] #this could remove the wrong elements
-    params.remove(todelete)
-#a = input(' ')
-"""
-#'''
+
 #feature scale
 FS = feature_scaling(Xcut)
 X_fs = FS[0]
 means_fs = FS[1] #need to undo on best fit parameters
 sds_fs = FS[2] 
-#print ('X_fs, shape:', X_fs, np.shape(X_fs) )
 if fs_flag == 1:
     Xcut = X_fs
 
-#'''
 
 
 #add bias node to X
@@ -120,19 +87,11 @@ X = np.insert(Xcut, 0, np.ones(len(Xcut[:,0])), axis=1)
 #    Add option to binomially expand x for polnomial features    #
 ##################################################################
 
-#test = np.array([[0, 1], [1, 2]])
-#print ('test array: ', test, np.shape(test))
-#poly_test = polynomial_terms(test, 3)
-#print ('polynomial:', poly_test, np.shape(test), np.shape(poly_test) )
-#a = input(' ')
 
 
 X_poly = polynomial_terms(X, d)
-#print ('X_poly: ', X_poly, np.shape(X_poly), np.shape(X) ) #correct shape
 X = X_poly
-#a = input(' ')
 
-#normalise the parameters to keep them small
 
 #cut the data to make a training set
 el_train_end = int(train_frac*float(len(X[:,0])))
@@ -144,8 +103,6 @@ X_train, y_train = X[0:el_train_end], y[0:el_train_end]
 X_cv, y_cv = X[el_train_end:el_cv_end], y[el_train_end:el_cv_end]
 X_test, y_test = X[el_cv_end:], y[el_cv_end:]
 
-print ('cut shapes: ', np.shape(X_train), np.shape(X_cv), np.shape(X_test) ) #correct
-#a = input(' ')
 
 #define parameters and vectorise
 theta = np.array([np.zeros(len(X[0]))]).T #number of parameters in X
@@ -154,7 +111,6 @@ theta = np.array([np.zeros(len(X[0]))]).T #number of parameters in X
 print ('Model is using ', len(X[0]), 'free parameters.')
 print ('Training set has size ', len(X_train[:,0]) )
 
-#if I want a more complex hypothesis, this should go here, default is just linear
 
 ############################################################
 #            test the cost function and gradient code      #
@@ -163,7 +119,6 @@ print ('Training set has size ', len(X_train[:,0]) )
 init_cost_info = costFunction_logR(theta, X, y, reg=reg_param)
 J_init = init_cost_info[0]
 grad_init = init_cost_info[1]
-#print ('Initial J, gradient: ', J_init, grad_init[0:5])
 
 #initialise iterations and regularisation parameters
 
@@ -172,11 +127,8 @@ grad_init = init_cost_info[1]
 ############################################################
 
 #call gradient descent to minimise
-#theta_fit, J_hist = gradientDescent_logR(X, y, theta, alpha=1E-4, num_iters=100000) #this does descend!
 theta_fit, J_hist = gradientDescent_logR(X_train, y_train, theta, reg=reg_param, alpha=learn_rate, num_iters=Niters)#extra 000, 0.01 for alpha
 
-#print ('J_hist: ', J_hist)
-#a = input(' ')
 
 if d == 1:
     for i in range(len(theta_fit)):
@@ -191,10 +143,8 @@ plt.ylabel('cost function')
 plt.savefig('main_costFn.png', bbox_inches='tight')
 
 #very basic prediction (note this is on the training set!)
-#preds = predict(theta_fit, X_train)
 preds = predict(theta_fit, X_test, pred_thresh)
 pval_pred = sigmoid( np.dot(X_test,theta_fit) )
-#preds = predict(theta_fit, X_cv)
 
 N_max = len(preds)
 
@@ -239,8 +189,7 @@ print ('Success fraction is: ', N_correct/float(N_max) )
 print ('Precision = ', Precision )
 print ('Recall = ', Recall )
 
-#print ('original theta: ', theta)
-#"""
+
 error_train, error_cv = learningCurves_gradDec(X_train, y_train, X_cv, y_cv, theta, reg=reg_param, alpha=learn_rate, num_iters=500)
 
 plt.figure()
@@ -250,10 +199,7 @@ plt.xlabel('no. of iterations on training set')
 plt.ylabel('cost function')
 plt.legend()
 plt.savefig('main_performance.png', bbox_inches='tight')
-#plt.show()
-#"""
-#print ('X_test: ', X_test)
-#print ('X_test minus first col: ', X_test[:,1:])
+
 
 #PCA analysis
 if PCA_flag == 1 and fs_flag == 1: #can only use PCA with feature scaling
