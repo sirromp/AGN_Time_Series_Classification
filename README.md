@@ -79,7 +79,7 @@ Next, run `main.py` in `LogisticRegression`. This implementation allows for the 
 
 ### Preliminary Results
 
-The model performs well, with a success fracion on an unseen test set of 0.922, precision *P=*0.912 and recall *R=*0.937. Adding higher order terms does not improve performance, and leads to an increase of the runtime. 
+The model performs well, with a success fracion on an unseen test set of 0.922, precision *P*=0.912 and recall *R*=0.937. Adding higher order terms does not improve performance, and leads to an increase of the runtime. 
 
 
 |![Alt text](./LogisticRegression/main_PCA.png?raw=true "Definition of the Problem")|
