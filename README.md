@@ -90,6 +90,12 @@ The model performs well, with a success fracion on an unseen test set of 0.922, 
 
 Convolution neural networks are capable of indentifying features in input data, such as facial features in facial recognition. By analogy, it is reasonable to assume that they can identify features in a time-series that may help to classify it as normal or log-normal. 
 
+Due to the added complexity, this section uses `Keras` from `TensorFlow`, which automatically computes the backpropagation. This work is very much in progress, but performance appears better than for logistic regression.
+
+Typically, convNets use several convolution then pooling layers, where each layer can learn more detailed features. The output of these is then flattened, and fed into a few fully connected layers before being sent through a sigmoid activation to give our binary result. Such network architectures are currently being tested, with the code under`convNetClass_LNG.py` in the `ConvNet` folder. The most recent model is output as a png file.
+
+So far, the accuracy of these (on an unseen subset of the data) typically is over 0.97. If only a smaller (~2000 time-series) data set is used, there is a greater amount of overfitting on the training set. Please feel free to experiment!
+
 
 
 
