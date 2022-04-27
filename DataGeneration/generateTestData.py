@@ -12,20 +12,18 @@ Need more features: Fvar? Chi-squared for Gauss and lognorm as before? Symmetry 
 import numpy as np
 import matplotlib.pyplot as plt
 import genTK95LC as TK #for TK95 simulation - as falsePositiveRate.py in PhD work folder
-from DELCgen import * #for EMP13 simulation
 import random as random 
 import scipy.stats
 
 
 def logNormal_normed(xdata, xmean, sigma):
-    #print ( 1.0/(sigma*xdata*(2.0*np.pi)**0.5) )
     return ( 1.0/(sigma*xdata*(2.0*np.pi)**0.5) )*np.exp(-1.0*(np.log(xdata)-xmean)**2.0/(2.0*sigma**2.0))
+
 
 test_flag_G = 0
 test_flag_LN = 0
 save_flag = 1
-mode = 'TK95' #Timmer-Koenig method
-#mode = 'EMP13' #Emmanoulopoulos method
+mode = 'TK95' #Timmer-Koenig method - extend to other methods later
 N = 10000#00 #how many LCs of each form
 p_min = 0.0 #minimum PSD index
 p_max = 2.01 #maximum PSD index
@@ -80,25 +78,7 @@ for i in range(N): #for Gaussian
 
             plt.show()
             a = raw_input(' ')
-    if mode == 'EMP13':
-        #PL has form A * (v**(-a)) + c for PL(v,A,a,c)
-        #delc = Simulate_DE_Lightcurve(PL, (1.0,PSD_p,0.0), st.lognorm, (0.3, 0.0, 7.4), tbin=1, LClength=LC_len) #power-law, PSD-params, PDF, params
-        #st.norm: loc=mean, scale=sd, input is (
-        delc = Simulate_DE_Lightcurve(PL, (1.0,PSD_p,0.0), st.norm, (meanLC, sdLC), tbin=1, LClength=LC_len) #power-law, PSD-params, PDF, params
-        LC = delc.flux
-        if test_flag_G == 1:
-            print ('mean, sd: ', meanLC, sdLC)
-            delc.Plot_Stats()
-            '''
-            plt.figure()
-            plt.plot(np.arange(len(LC)), LC)
-
-            plt.figure()
-            plt.hist(LC, bins=10)
-
-            plt.show()
-            '''
-            a = raw_input(' ')
+ 
 
 
     #do some stats
@@ -130,7 +110,6 @@ for i in range(N): #for Gaussian
     sym_G[i] = sym
 
 if save_flag == 1:
-   print ('saving G light curves...')
    data_G = np.c_[mean_G, sd_G, p_G, SW_G, SWp_G, AD_G, skew_G, sym_G, Gval_G]
    np.savetxt('GaussianData.txt', data_G)
    np.savetxt('GaussianLCs.txt', LC_Gall) #each row is one light curve
@@ -177,25 +156,7 @@ for i in range(N): #for lognorm
 
             plt.show()
             a = raw_input(' ')
-    if mode == 'EMP13':
-        #PL has form A * (v**(-a)) + c for PL(v,A,a,c)
-        #delc = Simulate_DE_Lightcurve(PL, (1.0,PSD_p,0.0), st.lognorm, (0.3, 0.0, 7.4), tbin=1, LClength=LC_len) #power-law, PSD-params, PDF, params
-        #st.norm: loc=mean, scale=sd, input is (
-        delc = Simulate_DE_Lightcurve(PL, (1.0,PSD_p,0.0), st.lognorm, (meanLC, sdLC), tbin=1, LClength=LC_len) #power-law, PSD-params, PDF, params
-        LC = delc.flux
-        if test_flag_G == 1:
-            print ('mean, sd: ', meanLC, sdLC)
-            delc.Plot_Stats()
-            '''
-            plt.figure()
-            plt.plot(np.arange(len(LC)), LC)
 
-            plt.figure()
-            plt.hist(LC, bins=10)
-
-            plt.show()
-            '''
-            a = raw_input(' ')
 
 
     #do some stats
@@ -226,7 +187,6 @@ for i in range(N): #for lognorm
     sym_LN[i] = sym
 
 if save_flag == 1:
-   print ('saving LN light curves...')
    data_LN = np.c_[mean_LN, sd_LN, p_LN, SW_LN, SWp_LN, AD_LN, skew_LN, sym_LN, Gval_LN]
    np.savetxt('LognormData.txt', data_LN)
    np.savetxt('LognormLCs.txt', LC_LNall) #each row is one light curve
