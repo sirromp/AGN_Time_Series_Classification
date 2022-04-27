@@ -15,7 +15,7 @@ The problem comes down to measuring a quantity called the probability distributi
 
 | ![Alt text](./figs/PKS2155_PDF.png?raw=true) |
 |:--:| 
-| *Fig. 2: Histogram of flux values for the data shown in Fig.1 A chi squared metric is used to evaluate the best fit model, between the two which have been physically motivated.* |
+| *Fig. 2: Histogram of flux values for the data shown in Fig.1 A chi squared metric is used to evaluate the best fit model, between the two which have been physically motivated. Often the error bars on data are large enough that they overlap multiple bins, which limits how fine the binning can be.* |
 
 Unfortunately, blazars such as PKS2155-304 are often classified as Gaussian or lognorm based on the chi-squared metric, exactly as shown in Fig. 2. In [[1]](#1), this was shown to give the wrong result in >60\% of cases. This method relied on the method of Timmer and Koenig (1995) [[2]](#2) to generate artificial time-series. 
 
@@ -23,10 +23,19 @@ Unfortunately, blazars such as PKS2155-304 are often classified as Gaussian or l
 
 Another important property of a time-series is the power spectral density (PSD), which quantifies the amount of power in given frequencies sampled by the time series. It can be calculated by taking the discrete Fourier transform of a time-series, and typically has an approximate power-law functional form, i.e. *P(x) = Ax*<sup>*-p*</sup>. 
 
-The method of Timmer and Koenig (1995) [[2]](#2) can be used to generate artificial time-series. It works by entering a user-defined power-law shape (i.e. the choice of the exponent *b* above)
+The method of Timmer and Koenig (1995) (hereafter TK95) [[2]](#2) can be used to generate artificial time-series. It works by entering a user-defined power-law shape (i.e. the choice of the exponent *p* above) with real and imaginary parts of Fourier amplitudes are drawn from a Gaussian distribution with a normalisation such that the variance is that of the observed (or user defined) lightcurve. The inverse Fourier transform gives us a time-series with the desired PSD.
 
+Crucially, artifically generated time-series via [[2]](#2) have Gaussian PDFs. If we exponentiate the *y* values, taking care to re-adjust to the desired mean and variance, we return a time-series with a lognormal PDF, while approximately preserving the shape of PSD. 
+
+Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in the top right. The sub panels below the long time-series show extracted time-series, which may represent astronomically observed light curves. Below the PSD are the PDFs for these sub-light curves. Although this time-series had an intrinsically Gaussian PDF, the sampled time-series exhibit a range of PDF shapes, showing the problem with classifying them simply from a histogram alone.
+
+|![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")|
+|:--:| 
+| *Fig. 3: * |
 
 #A Machine Learning Classification Approach
+
+We have already established that in theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced.  
 
 Paragraphs are separated by a blank line. 
 
@@ -51,7 +60,7 @@ look like:
 
 
 
-![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")
+
 
 
 "...the **go to** statement should be abolished..." [[1]](#1).
