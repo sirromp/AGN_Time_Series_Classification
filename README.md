@@ -1,11 +1,11 @@
-# AGN_Time_Series_Classification
+# AGN Time Series Classification
 
 %% README.md
 
-# I'm a markdown file.
+# Heading 1
 
 And I can do *emphasis*.
-## With sub-headers
+## Subheading 1
 
 > Block quotes are
 > written like so.
