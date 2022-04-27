@@ -4,18 +4,18 @@ The work in this repository builds on that of [[1]](#1). This work can be access
 
 ## Definition of the Problem
 
-The analysis of astrophysical time-series, here defined as some variable quantity such as flux or brightness can reveal much about their underlying physical nature. Fig. 1 shows such an example for the blazar PKS 2155-304 
+The analysis of astrophysical time-series, here defined as some variable quantity such as flux or brightness plotted as a function of time, can reveal much about their underlying physical nature. Fig. 1 shows such an example lightcurve (or time-series) for the blazar PKS 2155-304. 
 
 | ![Alt text](./figs/PKS2155_LC.png?raw=true) |
 |:--:| 
 | *Fig. 1: Fermi gamma-ray light curve for the blazar PKS2155-304. Photons are binned into 128 (monthly) time-bins which are integrated to compute their fluxes.* |
 
 
-The problem comes down to measuring a quantity called the probability distribution function (PDF). This can be calculated by forming a histogram of the *y* (or flux) values in the above time series. Fig. 2 shows such a histogram for the Fig. 1 time-series. For astrophysical time-series, two functional forms for the PDF have been physically motivated: Gaussian (G) and lognormal (LN). In short, the latter has the property that the amount of variation is proportional to the brightness level, and that the underlying process is multiplicative, whereas the former does not, and the underlying process governing the variability is additive. Intuitively this follows because the log of a product can be represented as a sum, hence a lognormal PDF in linear space is normally distributed in logspace.  
+The problem comes down to measuring a quantity called the probability distribution function (PDF). This can be calculated by forming a histogram of the *y* (or flux) values in a time-series. Fig. 2 shows such a histogram for the Fig. 1 time-series. For astrophysical time-series, two functional forms for the PDF have been physically motivated: Gaussian (G) and lognormal (LN). In short, the latter has the property that the amount of variation is proportional to the brightness level, and that the underlying process is multiplicative, whereas the former does not, and the underlying process governing the variability is additive. Intuitively this follows because the log of a product can be represented as a linear sum, hence a lognormal PDF in linear space is normally distributed in logspace.  
 
 | ![Alt text](./figs/PKS2155_PDF.png?raw=true) |
 |:--:| 
-| *Fig. 2: Histogram of flux values for the data shown in Fig.1 A chi squared metric is used to evaluate the best fit model, between the two which have been physically motivated. Often the error bars on data are large enough that they overlap multiple bins, which limits how fine the binning can be.* |
+| *Fig. 2: Histogram of flux values for the data shown in Fig.1 A chi squared metric is used to evaluate the best fit model, between the two which have been physically motivated. Often the error bars on data are large enough that they overlap multiple bins, which limits how fine the binning can be. This time-series would be assinged a lognormal PDF by virtue of the smaller reduced chi squared.* |
 
 Unfortunately, blazars such as PKS2155-304 are often classified as Gaussian or lognorm based on the chi-squared metric, exactly as shown in Fig. 2. In [[1]](#1), this was shown to give the wrong result in >60\% of cases. This method relied on the method of Timmer and Koenig (1995) [[2]](#2) to generate artificial time-series. 
 
@@ -23,7 +23,7 @@ Unfortunately, blazars such as PKS2155-304 are often classified as Gaussian or l
 
 Another important property of a time-series is the power spectral density (PSD), which quantifies the amount of power in given frequencies sampled by the time series. It can be calculated by taking the discrete Fourier transform of a time-series, and typically has an approximate power-law functional form, i.e. *P(x) = Ax*<sup>*-p*</sup>. 
 
-The method of Timmer and Koenig (1995) (hereafter TK95) [[2]](#2) can be used to generate artificial time-series. It works by entering a user-defined power-law shape (i.e. the choice of the exponent *p* above) with real and imaginary parts of Fourier amplitudes are drawn from a Gaussian distribution with a normalisation such that the variance is that of the observed (or user defined) lightcurve. The inverse Fourier transform gives us a time-series with the desired PSD.
+The method of Timmer and Koenig (1995) (hereafter TK95) [[2]](#2) can be used to generate artificial time-series. It works by entering a user-defined power-law shape (i.e. the choice of the exponent *p* above) with real and imaginary parts of Fourier amplitudes drawn from a Gaussian distribution. The resultant time-series are generated with a normalisation such that the variance is that of the observed (or user defined) lightcurve. The inverse Fourier transform gives us a time-series with the desired PSD.
 
 Crucially, artifically generated time-series via [[2]](#2) have Gaussian PDFs. If we exponentiate the *y* values, taking care to re-adjust to the desired mean and variance, we return a time-series with a lognormal PDF, while approximately preserving the shape of PSD. 
 
@@ -35,7 +35,7 @@ Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in
 
 # A Machine Learning Classification Approach
 
-We have already established that in theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced. This is incredibly advantageous for machine learning models, as often a large data set can reduce the need for hand-engineering or additional complexity. 
+In theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced via the above method. This is incredibly advantageous for machine learning models, as often a large data set can reduce the need for hand-engineering or additional complexity. 
 
 The objectives of the current project are as follows:
 
@@ -44,7 +44,7 @@ The objectives of the current project are as follows:
 * An ideal model should be extendable to be multivariate. In astrophysics, we can have many simulataneous time-series at different wavelenths.
 * Any extension should allow for the inclusion of e.g. unevenly sampled data or other common data degradations. 
 
-In the following sections I present the prelimanry results.
+The following sections contain some preliminary results. Please note that this work remains ongoing. 
 
 
 ## Logistic Regression
@@ -73,9 +73,9 @@ Fig. 4 shows a computation graph for the logistic regression model.
 
 ### How to run Code
 
-Artificial light curves can be generated by running `generateTestData.py` in the folder `DataGeneration`. These light curves will have parameters drawn uniformly from the range of parameters at the top of the file. Example data are already included. **Please note: this code has not yet been updated to Python3, please use Python2.7+**.
+Artificial light curves can be generated by running `generateTestData.py` in the folder `DataGeneration`. These light curves will have parameters drawn uniformly from the range of parameters at the top of the file. Example data are already included. **Please note: this code has not yet been updated to Python3, please use Python2.7+**. Important to know is that `generateTestData.py` outputs 4 files: `LognormLCs.txt` and `GaussianLCs.txt` contain the light curves in a simple text file where each row is one time-series. Similarly, `'LognormData.txt` and `GaussianData.txt` list the above bulet-pointed parameters row-wise. This is important for the vectorised code to run efficiently.
 
-Next, run `main.py` in `LogisticRegression`. This implementation allows for the inclusion of polynomial terms in *a* in Fig. 4. To include them, change the parameter `d` to be >1. This allows for a more complex non-linear decision boundary. **This code has been written in Python3**. Note that this implementation is self-written in numpy, including back-propagation and gradient descent. 
+Next, run `main.py` in `LogisticRegression`. This implementation allows for the inclusion of polynomial terms in *a* in Fig. 4. To include them, change the parameter `d` to be >1. This allows for a more complex non-linear decision boundary. **This code has been written in Python3**. Note that this implementation is self-written in numpy, including back-propagation and gradient descent. The code is fully vectorised, and should run quickly. 
 
 ### Preliminary Results
 
