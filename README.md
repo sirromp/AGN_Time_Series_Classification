@@ -44,5 +44,5 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 #. second item
 #. third item
 
-![Alt text](./figs/nonStationarity_neat2.png?raw=true "Definition of the Problem")
+![Alt text](./figs/problem.png?raw=true "Definition of the Problem")
 
