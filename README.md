@@ -44,6 +44,10 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 #. second item
 #. third item
 
+| ![Alt text](./figs/Mrk501_PDF.png?raw=true) |
+|:--:| 
+| *Fig. 1: Describe* |
+
 ![Alt text](./figs/problem.png?raw=true "Definition of the Problem")
 
 
