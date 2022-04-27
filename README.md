@@ -27,30 +27,21 @@ The method of Timmer and Koenig (1995) (hereafter TK95) [[2]](#2) can be used to
 
 Crucially, artifically generated time-series via [[2]](#2) have Gaussian PDFs. If we exponentiate the *y* values, taking care to re-adjust to the desired mean and variance, we return a time-series with a lognormal PDF, while approximately preserving the shape of PSD. 
 
-Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in the top right. The sub panels below the long time-series show extracted time-series, which may represent astronomically observed light curves. Below the PSD are the PDFs for these sub-light curves. Although this time-series had an intrinsically Gaussian PDF, the sampled time-series exhibit a range of PDF shapes, showing the problem with classifying them simply from a histogram alone.
+Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in the top right. The sub panels below the long time-series show extracted time-series, which may represent astronomically observed light curves. Below the PSD are the PDFs for these sub-light curves. Although this time-series had an intrinsically Gaussian PDF, the sampled time-series exhibit a range of PDF shapes (these are colour and linestyle matched), showing the problem with classifying them simply from a histogram alone.
 
 |![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")|
 |:--:| 
-| *Fig. 3: * |
+| *Fig. 3: A long artifical light curve with Gaussian PDF (top right) generated from a user-defined PSD with random noise (top-left). Sample observations in green, red and blue can return PDF shapes which are significantly different from the true Gaussian PDF, if the histogram method is used.* |
 
 #A Machine Learning Classification Approach
 
-We have already established that in theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced.  
+We have already established that in theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced. This is incredibly advantageous for machine learning models, as often a large data set can reduce the need for hand-engineering or additional complexity. 
 
-Paragraphs are separated by a blank line. 
+The objectives are as follows:
 
-2nd paragraph. *Italic*, **bold**, and `monospace`. Itemized lists
-look like:
-
-* this one
-* that one
-* the other one
-
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
+* To build a machine learning classifier which can correctly classify artificial time-series, then apply this to astrophysical data
+* The inputs must be well defined: either the time-series directly or easy-to-measure quantities. This ensures reproducability.
+* An ideal model should be extendable to be multivariate. In astrophysics, we can have many simulataneous time-series at different wavelenths. 
 
 
 
@@ -58,12 +49,6 @@ look like:
 
 
 
-
-
-
-
-
-"...the **go to** statement should be abolished..." [[1]](#1).
 
 ## References
 <a id="1">[1]</a> 
