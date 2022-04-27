@@ -33,7 +33,7 @@ Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in
 |:--:| 
 | *Fig. 3: A long artifical light curve with Gaussian PDF (top right) generated from a user-defined PSD with random noise (top-left). Sample observations in green, red and blue can return PDF shapes which are significantly different from the true Gaussian PDF, if the histogram method is used.* |
 
-#A Machine Learning Classification Approach
+# A Machine Learning Classification Approach
 
 We have already established that in theory an infinite number of artificial time-series which are known to have either a Gaussian or a lognormal PDF can be produced. This is incredibly advantageous for machine learning models, as often a large data set can reduce the need for hand-engineering or additional complexity. 
 
