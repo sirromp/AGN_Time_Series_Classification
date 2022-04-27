@@ -44,5 +44,5 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 #. second item
 #. third item
 
-![alt text](https://github.com/sirromp/AGN_Time_Series_Classification/main/nonStationarity_neat2.png?raw=true)
+![Alt text](./nonStationarity_neat2.png?raw=true "Title")
 
