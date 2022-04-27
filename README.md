@@ -50,6 +50,8 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 
 ![Alt text](./figs/problem.png?raw=true "Definition of the Problem")
 
+![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")
+
 
 "...the **go to** statement should be abolished..." [[1]](#1).
 
