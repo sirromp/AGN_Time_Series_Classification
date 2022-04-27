@@ -1,8 +1,14 @@
 # AGN Time Series Classification
 
-%% README.md
+The work in this repository builds on that of [[1]](#1). This work can be accessed [here](https://arxiv.org/abs/1908.04135). The problem definition will be summarised and objectives outlined. 
 
-# Heading 1
+# Definition of the Problem
+
+The analysis of astrophysical time-series, here defined as some variable quantity such as flux or brightness can reveal much about their underlying physical nature. Fig. 1 shows such an example for the blazar PKS 2155-304 
+
+| ![Alt text](./figs/PKS2155_LC.png?raw=true) |
+|:--:| 
+| *Fig. 1: Fermi gamma-ray light curve for the blazar PKS2155-304. Photons are binned into 128 (monthly) time-bins which are integrated to compute their fluxes.* |
 
 And I can do *emphasis*.
 ## Subheading 1
@@ -35,20 +41,15 @@ look like:
 > They can span multiple paragraphs,
 > if you like.
 
-An h2 header
-------------
 
-Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 
-#. first item
-#. second item
-#. third item
 
-| ![Alt text](./figs/Mrk501_PDF.png?raw=true) |
+
+
+| ![Alt text](./figs/PKS2155_PDF.png?raw=true) |
 |:--:| 
 | *Fig. 1: Describe* |
 
-![Alt text](./figs/problem.png?raw=true "Definition of the Problem")
 
 ![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")
 
@@ -57,9 +58,9 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 
 ## References
 <a id="1">[1]</a> 
-Dijkstra, E. W. (1968). 
-Go to statement considered harmful. 
-Communications of the ACM, 11(3), 147-148.
+Morris, P. J., Chakraborty, N. and Cotter, G. (2019).  
+Deviations from normal distributions in artificial and real time series: a false positive prescription
+MNRAS, 489, 2117-2129.
 
 
 
