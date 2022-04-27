@@ -44,5 +44,5 @@ Here's a numbered list (use `hashEnumerators` option if you want to use hashes):
 #. second item
 #. third item
 
-![Alt text](./nonStationarity_neat2.png?raw=true "Title")
+![Alt text](./figs/nonStationarity_neat2.png?raw=true "Title")
 
