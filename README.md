@@ -29,7 +29,7 @@ Crucially, artifically generated time-series via [[2]](#2) have Gaussian PDFs. I
 
 Fig. 3 shows (top left) a user-defined PSD, with a TK95 generated time-series in the top right. The sub panels below the long time-series show extracted time-series, which may represent astronomically observed light curves. Below the PSD are the PDFs for these sub-light curves. Although this time-series had an intrinsically Gaussian PDF, the sampled time-series exhibit a range of PDF shapes (these are colour and linestyle matched), showing the problem with classifying them simply from a histogram alone.
 
-|![Alt text](./figs/nonStationarity.png?raw=true "Definition of the Problem")|
+|![Alt text](./figs/nonStationarity.png?raw=true )|
 |:--:| 
 | *Fig. 3: A long artifical light curve with Gaussian PDF (top right) generated from a user-defined PSD with random noise (top-left). Sample observations in green, red and blue can return PDF shapes which are significantly different from the true Gaussian PDF, if the histogram method is used.* |
 
@@ -67,7 +67,7 @@ Which can all be easlily computed in a single line of python.
 
 Fig. 4 shows a computation graph for the logistic regression model.
 
-|![Alt text](./figs/logRmodel.png?raw=true "Definition of the Problem")|
+|![Alt text](./figs/logRmodel.png?raw=true )|
 |:--:| 
 | *Fig. 4: Basic computation graph for our logistic regression model. This assumes a vectorised implementation with parameters theta. The sigmoid activation is represented by the sigma symbol.* |
 
@@ -82,7 +82,7 @@ Next, run `main.py` in `LogisticRegression`. This implementation allows for the 
 The model performs well, with a success fracion on an unseen test set of 0.922, precision *P*=0.912 and recall *R*=0.937. Adding higher order terms does not improve performance, and leads to an increase of the runtime. 
 
 
-|![Alt text](./LogisticRegression/main_PCA.png?raw=true "Definition of the Problem")|
+|![Alt text](./LogisticRegression/main_PCA.png?raw=true )|
 |:--:| 
 | *Fig. 5: Princple component analysis (PCA) for the artificial time series. Incorrectly classified data are circled.* |
 
@@ -94,7 +94,7 @@ Due to the added complexity, this section uses `Keras` from `TensorFlow`, which 
 
 Typically, convNets use several convolution then pooling layers, where each layer can learn more detailed features. The output of these is then flattened, and fed into a few fully connected layers before being sent through a sigmoid activation to give our binary result. Such network architectures are currently being tested, with the code under`convNetClass_LNG.py` in the `ConvNet` folder. The most recent model is output as a png file.
 
-So far, the accuracy of these (on an unseen subset of the data) typically is over 0.97. If only a smaller (~2000 time-series) data set is used, there is a greater amount of overfitting on the training set. Please feel free to experiment!
+So far, the accuracy of these (on an unseen subset of the data) typically is over 0.97. If only a smaller (~2000 time-series) data set is used, there is a greater amount of overfitting on the training set. Please feel free to experiment, and if you are interested you can reach me at paul.morris@desy.de
 
 
 
